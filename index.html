@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureAI - Advanced Fraud Detection</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+            <div class="shape shape3"></div>
+            <div class="shape shape4"></div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-shield-alt"></i>
+            <span>SecureAI</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+            <a href="/history" class="nav-link"><i class="fas fa-chart-line"></i> History</a>
+            <a href="/payment" class="nav-link"><i class="fas fa-credit-card"></i> Premium</a>
+        </div>
+    </nav>
+    
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <i class="fas fa-robot pulse"></i>
+                AI-Powered Fraud Detection
+            </h1>
+            <p class="hero-subtitle">Protect your transactions with advanced machine learning</p>
+            <div class="stats-row">
+                <div class="stat-item">
+                    <div class="stat-number counter" data-target="99.8">0</div>
+                    <div class="stat-label">% Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number counter" data-target="1000">0</div>
+                    <div class="stat-label">+ Transactions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number counter" data-target="24">0</div>
+                    <div class="stat-label">/7 Protection</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <div class="fraud-detector-card">
+            <div class="card-header">
+                <h2><i class="fas fa-search"></i> Transaction Analyzer</h2>
+                <p>Enter transaction details for instant fraud analysis</p>
+            </div>
+            
+            <form action="/predict" method="post" class="fraud-form" id="fraudForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-rupee-sign"></i> Amount</label>
+                        <input type="number" name="amount" min="1" step="0.01" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-clock"></i> Time (24hr)</label>
+                        <input type="number" name="time" min="0" max="23" required class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-globe"></i> Location</label>
+                        <select name="location" required class="form-select">
+                            <option value="">Select Location</option>
+                            <option value="India">🇮🇳 India</option>
+                            <option value="Other">🌍 International</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-mobile-alt"></i> Device</label>
+                        <select name="device" required class="form-select">
+                            <option value="">Select Device</option>
+                            <option value="Mobile">📱 Mobile</option>
+                            <option value="Desktop">💻 Desktop</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-sync-alt"></i> Daily Frequency</label>
+                    <input type="range" name="frequency" min="1" max="50" value="1" class="range-slider" oninput="updateFrequency(this.value)">
+                    <div class="range-value">Frequency: <span id="freqValue">1</span> transactions/day</div>
+                </div>
+
+                <button type="submit" class="analyze-btn">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Analyze Transaction</span>
+                    <div class="btn-loader"></div>
+                </button>
+            </form>
+
+            {% if prediction_text %}
+                <div class="result-container animate-in">
+                    <div class="result-content">
+                        <h3 class="result-title">Analysis Result</h3>
+                        <p class="result-text">{{ prediction_text }}</p>
+                        <div class="result-actions">
+                            <button class="btn-secondary" onclick="location.reload()">Analyze Another</button>
+                            <a href="/history" class="btn-primary">View History</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-brain"></i></div>
+                <h3>AI-Powered</h3>
+                <p>Advanced machine learning algorithms analyze transaction patterns</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Real-time</h3>
+                <p>Instant fraud detection with confidence scoring</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                <h3>Secure</h3>
+                <p>Bank-grade security with encrypted data processing</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Plans - SecureAI</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+            <div class="shape shape3"></div>
+            <div class="shape shape4"></div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-shield-alt"></i>
+            <span>SecureAI</span>
+        </div>
+        <div class="nav-links">
+            <a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a>
+            <a href="/history" class="nav-link"><i class="fas fa-chart-line"></i> History</a>
+            <a href="/payment" class="nav-link active"><i class="fas fa-credit-card"></i> Premium</a>
+        </div>
+    </nav>
+    
+    <div class="payment-container">
+        <div class="payment-header">
+            <h1><i class="fas fa-crown"></i> Premium Plans</h1>
+            <p>Unlock advanced fraud detection features</p>
+        </div>
+        
+        <div class="pricing-grid">
+            <!-- Basic Plan -->
+            <div class="pricing-card">
+                <div class="plan-header">
+                    <h3>Basic</h3>
+                    <div class="price">
+                        <span class="currency">₹</span>
+                        <span class="amount">99</span>
+                        <span class="period">/month</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> 100 transactions/month</li>
+                    <li><i class="fas fa-check"></i> Basic fraud detection</li>
+                    <li><i class="fas fa-check"></i> Email support</li>
+                    <li><i class="fas fa-check"></i> Transaction history</li>
+                </ul>
+                <button class="plan-btn" onclick="initiatePayment('basic', 99)">
+                    <i class="fab fa-google-pay"></i> Pay with GPay
+                </button>
+                <button class="plan-btn razorpay-btn" onclick="initiateRazorpay('basic', 99)">
+                    <i class="fas fa-credit-card"></i> Pay with Razorpay
+                </button>
+            </div>
+            
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <div class="popular-badge">Most Popular</div>
+                <div class="plan-header">
+                    <h3>Pro</h3>
+                    <div class="price">
+                        <span class="currency">₹</span>
+                        <span class="amount">299</span>
+                        <span class="period">/month</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> 1000 transactions/month</li>
+                    <li><i class="fas fa-check"></i> Advanced AI detection</li>
+                    <li><i class="fas fa-check"></i> Real-time alerts</li>
+                    <li><i class="fas fa-check"></i> API access</li>
+                    <li><i class="fas fa-check"></i> Priority support</li>
+                    <li><i class="fas fa-check"></i> Custom reports</li>
+                </ul>
+                <button class="plan-btn" onclick="initiatePayment('pro', 299)">
+                    <i class="fab fa-google-pay"></i> Pay with GPay
+                </button>
+                <button class="plan-btn razorpay-btn" onclick="initiateRazorpay('pro', 299)">
+                    <i class="fas fa-credit-card"></i> Pay with Razorpay
+                </button>
+            </div>
+            
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <div class="plan-header">
+                    <h3>Enterprise</h3>
+                    <div class="price">
+                        <span class="currency">₹</span>
+                        <span class="amount">999</span>
+                        <span class="period">/month</span>
+                    </div>
+                </div>
+                <ul class="features">
+                    <li><i class="fas fa-check"></i> Unlimited transactions</li>
+                    <li><i class="fas fa-check"></i> Custom AI models</li>
+                    <li><i class="fas fa-check"></i> White-label solution</li>
+                    <li><i class="fas fa-check"></i> Dedicated support</li>
+                    <li><i class="fas fa-check"></i> Advanced analytics</li>
+                    <li><i class="fas fa-check"></i> Multi-user access</li>
+                </ul>
+                <button class="plan-btn" onclick="initiatePayment('enterprise', 999)">
+                    <i class="fab fa-google-pay"></i> Pay with GPay
+                </button>
+                <button class="plan-btn razorpay-btn" onclick="initiateRazorpay('enterprise', 999)">
+                    <i class="fas fa-credit-card"></i> Pay with Razorpay
+                </button>
+            </div>
+        </div>
+        
+        <div class="payment-methods">
+            <h3>Supported Payment Methods</h3>
+            <div class="payment-icons">
+                <div class="payment-icon">
+                    <i class="fab fa-google-pay"></i>
+                    <span>Google Pay</span>
+                </div>
+                <div class="payment-icon">
+                    <i class="fab fa-cc-visa"></i>
+                    <span>Visa</span>
+                </div>
+                <div class="payment-icon">
+                    <i class="fab fa-cc-mastercard"></i>
+                    <span>Mastercard</span>
+                </div>
+                <div class="payment-icon">
+                    <i class="fas fa-university"></i>
+                    <span>Net Banking</span>
+                </div>
+                <div class="payment-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>UPI</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Pay Integration
+        function initiatePayment(plan, amount) {
+            // Google Pay configuration
+            const paymentDataRequest = {
+                apiVersion: 2,
+                apiVersionMinor: 0,
+                allowedPaymentMethods: [{
+                    type: 'CARD',
+                    parameters: {
+                        allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+                        allowedCardNetworks: ['MASTERCARD', 'VISA']
+                    },
+                    tokenizationSpecification: {
+                        type: 'PAYMENT_GATEWAY',
+                        parameters: {
+                            gateway: 'example',
+                            gatewayMerchantId: 'exampleGatewayMerchantId'
+                        }
+                    }
+                }],
+                merchantInfo: {
+                    merchantId: '12345678901234567890',
+                    merchantName: 'SecureAI Fraud Detection'
+                },
+                transactionInfo: {
+                    totalPriceStatus: 'FINAL',
+                    totalPriceLabel: 'Total',
+                    totalPrice: amount.toString(),
+                    currencyCode: 'INR'
+                }
+            };
+
+            // For demo purposes, show success message
+            showPaymentSuccess(plan, amount, 'Google Pay');
+        }
+
+        // Razorpay Integration
+        function initiateRazorpay(plan, amount) {
+            const options = {
+                key: 'rzp_test_1234567890', // Replace with your Razorpay key
+                amount: amount * 100, // Amount in paise
+                currency: 'INR',
+                name: 'SecureAI',
+                description: `${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan Subscription`,
+                image: '/static/logo.png',
+                handler: function (response) {
+                    showPaymentSuccess(plan, amount, 'Razorpay');
+                    // Send payment details to server
+                    fetch('/payment/success', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            payment_id: response.razorpay_payment_id,
+                            plan: plan,
+                            amount: amount
+                        })
+                    });
+                },
+                prefill: {
+                    name: 'Customer Name',
+                    email: 'customer@example.com',
+                    contact: '9999999999'
+                },
+                theme: {
+                    color: '#667eea'
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        function showPaymentSuccess(plan, amount, method) {
+            const successHTML = `
+                <div class="payment-success">
+                    <div class="success-content">
+                        <i class="fas fa-check-circle"></i>
+                        <h2>Payment Successful!</h2>
+                        <p>Thank you for subscribing to our ${plan} plan</p>
+                        <p>Amount: ₹${amount}</p>
+                        <p>Payment Method: ${method}</p>
+                        <button onclick="location.href='/'" class="success-btn">
+                            Continue to Dashboard
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', successHTML);
+            
+            // Remove success message after 5 seconds
+            setTimeout(() => {
+                const successDiv = document.querySelector('.payment-success');
+                if (successDiv) successDiv.remove();
+            }, 5000);
+        }
+    </script>
+    
+    <style>
+        .payment-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 50px;
+        }
+        
+        .payment-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .payment-header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .payment-header p {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .pricing-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(102,126,234,0.3);
+        }
+        
+        .pricing-card.featured {
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .plan-header h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        
+        .price {
+            margin-bottom: 30px;
+        }
+        
+        .currency {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .period {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .features li {
+            padding: 8px 0;
+            color: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features i {
+            color: #4caf50;
+        }
+        
+        .plan-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 15px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .plan-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.3);
+        }
+        
+        .razorpay-btn {
+            background: linear-gradient(135deg, #3395ff 0%, #1976d2 100%);
+        }
+        
+        .payment-methods {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        .payment-methods h3 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
+        
+        .payment-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .payment-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255,255,255,0.7);
+            transition: all 0.3s ease;
+        }
+        
+        .payment-icon:hover {
+            color: #667eea;
+            transform: translateY(-5px);
+        }
+        
+        .payment-icon i {
+            font-size: 2rem;
+        }
+        
+        .payment-success {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        
+        .success-content {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .success-content i {
+            font-size: 4rem;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+        
+        .success-content h2 {
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        
+        .success-content p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 10px;
+        }
+        
+        .success-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .success-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-card.featured {
+                transform: none;
+            }
+            
+            .payment-icons {
+                gap: 20px;
+            }
+        }
+    </style>
+</body>
+</html>

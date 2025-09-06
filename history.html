@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - AI Fraud Detection</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/">🏠 Home</a>
+        <a href="/history">📊 History</a>
+    </nav>
+    
+    <div class="container">
+        <h1>📊 Transaction History</h1>
+        <p class="subtitle">Recent transaction analysis results</p>
+        
+        {% if transactions %}
+            <div class="history-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Amount</th>
+                            <th>Location</th>
+                            <th>Device</th>
+                            <th>Result</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaction in transactions %}
+                        <tr class="{{ 'fraud-row' if transaction.result == 'fraud' else 'genuine-row' }}">
+                            <td>{{ transaction.timestamp }}</td>
+                            <td>₹{{ transaction.amount }}</td>
+                            <td>{{ transaction.location }}</td>
+                            <td>{{ transaction.device }}</td>
+                            <td>
+                                {% if transaction.result == 'fraud' %}
+                                    ❌ Fraud
+                                {% else %}
+                                    ✅ Genuine
+                                {% endif %}
+                            </td>
+                            <td>{{ "%.1f%%" | format(transaction.confidence * 100) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="no-data">
+                <p>🔍 No transactions analyzed yet</p>
+                <a href="/" class="btn">Analyze First Transaction</a>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
